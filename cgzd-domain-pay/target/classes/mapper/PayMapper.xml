@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cgzd.pay.dao.PayMapper">
+
+    <!-- result -->
+    <resultMap id="resultMap" type="com.cgzd.pay.entity.Pay">
+        <result column="id" property="id"/>
+        <result column="pay_type" property="payType"
+                typeHandler="com.cgzd.common.handler.BaseEnumHandler"/>
+        <result column="status" property="status"
+                typeHandler="com.cgzd.common.handler.BaseEnumHandler"/>
+        <result column="pay_method" property="payMethod"
+                typeHandler="com.cgzd.common.handler.BaseEnumHandler"/>
+        <result column="property" property="property"
+                typeHandler="com.cgzd.common.handler.JsonTypeHandler"/>
+        <result column="attach" property="attach"
+                typeHandler="com.cgzd.common.handler.JsonTypeHandler"/>
+    </resultMap>
+
+    <!-- 所有查询字段 -->
+    <sql id="selectionColumn">
+        `id`,`order_id`,`order_description`,`time_expire`,`attach`,`amount`,`pay_type`,`pay_method`,
+        `prepay_id`,`status`,`msg`,`proof`,`property`,`pay_time`,`is_del`,`update_user`,
+        `update_time`,`create_user`,`source_type`,`create_time`
+    </sql>
+
+    <!-- insert -->
+    <insert id="save" parameterType="com.cgzd.pay.entity.Pay" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO sys_pay (
+        <include refid="selectionColumn"/>
+        )VALUES(
+        #{id},
+        #{orderId},
+        #{orderDescription},
+        #{timeExpire},
+        #{attach,typeHandler=com.cgzd.common.handler.JsonTypeHandler},
+        #{amount},
+        #{payType,typeHandler=com.cgzd.common.handler.BaseEnumHandler},
+        #{payMethod,typeHandler=com.cgzd.common.handler.BaseEnumHandler},
+        #{prepayId},
+        #{status,typeHandler=com.cgzd.common.handler.BaseEnumHandler},
+        #{msg},
+        #{proof},
+        #{property,typeHandler=com.cgzd.common.handler.JsonTypeHandler},
+        #{payTime},
+        0,
+        #{updateUser},
+        NOW(),
+        #{createUser},
+        #{sourceType},
+        NOW()
+        ) ON DUPLICATE KEY UPDATE `prepay_id` = #{prepayId},
+        `status` = #{status,typeHandler=com.cgzd.common.handler.BaseEnumHandler},
+        `property` = #{property,typeHandler=com.cgzd.common.handler.JsonTypeHandler},
+        `msg` = #{msg},`pay_time` = #{payTime},
+        `proof` = #{proof},
+        `update_user` = #{updateUser}, `update_time` = NOW()
+    </insert>
+    <select id="getPayForOrderId" resultMap="resultMap">
+        select
+        <include refid="selectionColumn"/>
+        from sys_pay where order_id =#{id}
+    </select>
+
+    <!--查询当前订单是否是待支付状态-->
+    <select id="selectSysPayByOrderIdAndStatus" resultType="int">
+        SELECT
+            count( 1 )
+        FROM
+            `sys_pay`
+        WHERE
+             order_id = #{outTradeNo}
+        AND `status` !=#{code}
+    </select>
+
+    <select id="getPay" resultMap="resultMap">
+        select
+        <include refid="selectionColumn"/>
+        from sys_pay where order_id =#{id} and pay_method =#{code}
+    </select>
+    <select id="getPayForOrderIdAndType" resultMap="resultMap">
+        select
+        <include refid="selectionColumn"/>
+        from sys_pay where order_id =#{id}
+        and pay_type=#{code}
+    </select>
+
+</mapper>

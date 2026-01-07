@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.cgzd</groupId>
+        <artifactId>app</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cgzd-pay</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <groupId>com.cgzd</groupId>
+    <modules>
+        <module>cgzd-feign-pay</module>
+        <module>cgzd-domain-pay</module>
+        <module>cgzd-common-pay</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.cgzd</groupId>
+            <artifactId>cgzd-common-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+            <version>11.7</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 配置部署的远程仓库 -->
+    <distributionManagement>
+        <!-- 指定发布版本发布jar的库 -->
+        <repository>
+            <id>cgzd-releases</id>
+            <url>http://nexus.keyto168.com/repository/cgzd-release/</url>
+        </repository>
+        <!-- 指定快照版本发布jar的库 -->
+        <snapshotRepository>
+            <id>cgzd-snapshots</id>
+            <url>http://nexus.keyto168.com/repository/cgzd-snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>cgzd-releases</id>
+            <url>http://nexus.keyto168.com/repository/cgzd-release/</url>
+        </repository>
+        <repository>
+            <id>cgzd-snapshots</id>
+            <url>http://nexus.keyto168.com/repository/cgzd-snapshot</url>
+        </repository>
+    </repositories>
+
+</project>

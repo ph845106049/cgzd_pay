@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: cgzd-pay
+  cloud:
+    nacos:
+      # 注册中心
+      discovery:
+        namespace: ${namespace}
+        server-addr: ${server-addr}
+#        register-enabled: false
+
+      # 配置中心
+      config:
+        server-addr: ${server-addr}
+        file-extension: yml
+        namespace: ${namespace}
+        group: ${group}
