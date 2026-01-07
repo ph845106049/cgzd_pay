@@ -28,16 +28,9 @@
 
 ## 技术栈
 
-- Java：8+（建议写你真实使用的版本）
+- Java：8+
 - Maven：多模块聚合构建
 - Feign：对外 HTTP/服务调用（如有）
-- （可选）Spring Boot / Spring Cloud（如果项目确实依赖）
+- Spring Boot / Spring Cloud
 
----
 
-## 快速开始
-
-### 1. 克隆仓库
-```bash
-git clone https://github.com/ph845106049/cgzd_pay.git
-cd cgzd_pay
